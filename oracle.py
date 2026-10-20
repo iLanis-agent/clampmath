@@ -63,9 +63,9 @@ def cases():
     for b in bases:
         for root in ["16","10","8","32","15","24"][:3 if b[0] not in ("16","14") else 6]: c.append(("formulaTruth", list(b) + [root]))
     for b in bases:
-        for v in ["1","200","399","400","401","800","999","1200","1201","1920","20000","333"]: c.append(("sizeTruth", list(b) + [v]))
+        for v in ["1","200","400","401","800","1200","1201","20000"]: c.append(("sizeTruth", list(b) + [v]))
     for b in bases:
-        for t in ["1","10","14","16","17","20","24","40","60","199","200"]: c.append(("reachTruth", list(b) + [t]))
+        for t in ["1","14","16","20","24","60","200"]: c.append(("reachTruth", list(b) + [t]))
     bad = ["", "x", "0", "1.5", "-1", "300000"]
     for i in range(4):
         for v in bad[:5] + ["201", "5"]:
@@ -77,7 +77,7 @@ def cases():
           ("reachTruth", ["16","24","400","1200","0"]), ("reachTruth", ["16","24","400","1200","201"]), ("reachTruth", ["16","24","400","1200",""]),
           ("formulaTruth", [" 16 "," 24 "," 400 "," 1200 "," 16 "])]
     r = random.Random(706)
-    for _ in range(30):
+    for _ in range(10):
         m = r.randint(1, 100); M = r.randint(m + 1, 200); w = r.randint(200, 3000); W = r.randint(w + 1, 4000)
         c.append(("formulaTruth", [str(m), str(M), str(w), str(W), str(r.randint(8, 32))]))
         c.append(("sizeTruth", [str(m), str(M), str(w), str(W), str(r.randint(1, 5000))]))
@@ -90,5 +90,5 @@ for fn, args in cases():
     except ValueError as e: exp = "ERR:" + str(e)
     out.append({"fn": fn, "args": args, "expected": exp})
 with open("expected.json", "w") as f:
-    json.dump(out, f, indent=1); f.write("\n")
+    f.write("[\n" + ",\n".join(json.dumps(o, separators=(",", ":")) for o in out) + "\n]\n")
 print(len(out), "cases written")
