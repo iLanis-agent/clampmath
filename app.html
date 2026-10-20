@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clamp Math - app</title>
+<style>
+  :root { --accent:#b4432f; --ink:#331510; --paper:#fdf5f3; --soft:#f8dfd9; }
+  * { box-sizing:border-box; margin:0; }
+  body { font-family:Georgia, "Times New Roman", serif; background:var(--paper); color:var(--ink); line-height:1.55; }
+  main { max-width:660px; margin:0 auto; }
+  .boundary { background:#fdeaea; border-left:6px solid #b03030; color:#5c1c1c; border-radius:6px; padding:1rem 1.1rem; }
+  .boundary strong { display:block; margin-bottom:.3rem; }
+  body { padding:2rem 1.2rem; }
+  h1 { font-size:1.8rem; color:var(--accent); }
+  .boundary { margin:1rem 0 1.4rem; }
+  .panel { background:var(--soft); border-left:5px solid var(--accent); border-radius:6px; padding:1rem 1.1rem; margin-bottom:1.1rem; }
+  h2 { font-size:1.1rem; margin-bottom:.6rem; }
+  p.note { font-size:.9rem; margin-bottom:.4rem; }
+  label { display:block; font-size:.9rem; margin:.45rem 0 .1rem; }
+  input { width:100%; padding:.45rem .55rem; font-size:1rem; border:1px solid #e09a8c; border-radius:6px; background:#fff; color:var(--ink); }
+  .row2 { display:grid; grid-template-columns:1fr 1fr; gap:.6rem; }
+  .row3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:.6rem; }
+  .out { margin-top:.7rem; font-size:.98rem; background:#fff; border:1px dashed #e09a8c; border-radius:6px; padding:.6rem .7rem; min-height:2.4rem; overflow-wrap:anywhere; }
+  .out.err { border-color:#b03030; color:#8a1f1f; }
+  footer { margin-top:1.8rem; font-size:.85rem; color:#a0655a; }
+  a { color:var(--accent); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Clamp Math</h1>
+  <div class="boundary">
+    <strong>Boundary: arithmetic only</strong>
+    This page works out CSS fluid text sizes from the numbers you type. It has not seen your page, your fonts or your visitors' settings. It does not know how browser zoom, a visitor's own text size or your other CSS will change what they see, or whether the text is easy to read, and it gives no verdict that a size is right. Every number is your own entry.
+  </div>
+
+  <div class="panel">
+    <h2>The formula truth</h2>
+    <p class="note">Text grows in a straight line between two sizes over two page widths. Sizes and widths are in px.</p>
+    <div class="row2">
+      <div><label for="k-m">Smallest size</label><input id="k-m" type="text" value="16"></div>
+      <div><label for="k-M">Largest size</label><input id="k-M" type="text" value="24"></div>
+      <div><label for="k-w">Smallest width</label><input id="k-w" type="text" value="400"></div>
+      <div><label for="k-W">Largest width</label><input id="k-W" type="text" value="1200"></div>
+      <div><label for="k-r">Root size</label><input id="k-r" type="text" value="16"></div>
+    </div>
+    <div class="out" id="f-out"></div>
+  </div>
+
+  <div class="panel">
+    <h2>The size truth</h2>
+    <p class="note">The text size at one page width, using the range above.</p>
+    <div class="row2">
+      <div><label for="s-v">Page width</label><input id="s-v" type="text" value="800"></div>
+    </div>
+    <div class="out" id="s-out"></div>
+  </div>
+
+  <div class="panel">
+    <h2>The reach truth</h2>
+    <p class="note">The page width where the text reaches a size, using the range above.</p>
+    <div class="row2">
+      <div><label for="t-t">Target size</label><input id="t-t" type="text" value="20"></div>
+    </div>
+    <div class="out" id="t-out"></div>
+  </div>
+
+  <footer>Clamp Math is exact arithmetic over the numbers you enter. <a href="index.html">Why it exists</a>.</footer>
+</main>
+<script src="engine.js"></script>
+<script>
+  function show(id, fn) {
+    const out = document.getElementById(id);
+    try { out.textContent = fn(); out.classList.remove("err"); }
+    catch (e) { out.textContent = e.message; out.classList.add("err"); }
+  }
+  function recalc() {
+    const v = (id) => document.getElementById(id).value;
+    const r = [v("k-m"), v("k-M"), v("k-w"), v("k-W")];
+    show("f-out", () => formulaTruth(...r, v("k-r")));
+    show("s-out", () => sizeTruth(...r, v("s-v")));
+    show("t-out", () => reachTruth(...r, v("t-t")));
+  }
+  document.querySelectorAll("input").forEach((el) => {
+    el.addEventListener("input", recalc);
+    el.addEventListener("change", recalc);
+  });
+  recalc();
+</script>
+</body>
+</html>
