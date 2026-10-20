@@ -20,7 +20,7 @@ Arithmetic only. It has not seen any page, font or visitor setting. It does not 
 - `app.html` - the interactive calculator.
 - `engine.js` - the arithmetic (exact integers).
 - `oracle.py` - the Python mirror (Fractions, solves the line from its two points, bisects for the width) that generates `expected.json`.
-- `test.js` - compares every engine output against `expected.json` (431 cases).
+- `test.js` - compares every engine output against `expected.json` (299 cases).
 - `expected.json` - the golden answers.
 
 ## Test
