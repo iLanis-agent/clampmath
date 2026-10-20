@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Clamp Math - fluid text size arithmetic</title>
+<style>
+  :root { --accent:#b4432f; --ink:#331510; --paper:#fdf5f3; --soft:#f8dfd9; }
+  * { box-sizing:border-box; margin:0; }
+  body { font-family:Georgia, "Times New Roman", serif; background:var(--paper); color:var(--ink); line-height:1.55; }
+  main { max-width:660px; margin:0 auto; }
+  .boundary { background:#fdeaea; border-left:6px solid #b03030; color:#5c1c1c; border-radius:6px; padding:1rem 1.1rem; }
+  .boundary strong { display:block; margin-bottom:.3rem; }
+  body { padding:2.5rem 1.2rem; }
+  h1 { font-size:2.2rem; color:var(--accent); }
+  p.lede { font-size:1.12rem; margin:.9rem 0 1.6rem; }
+  .boundary { margin-bottom:1.6rem; }
+  section { background:var(--soft); border-left:5px solid var(--accent); border-radius:6px; padding:1.1rem 1.2rem; margin-bottom:1.2rem; }
+  h2 { font-size:1.18rem; margin-bottom:.5rem; }
+  section p { font-size:.98rem; }
+  a.btn { display:inline-block; margin-top:1.4rem; background:var(--accent); color:#fff; text-decoration:none; padding:.8rem 1.6rem; border-radius:999px; font-size:1.05rem; }
+  footer { margin-top:2.2rem; font-size:.85rem; color:#a0655a; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Clamp Math</h1>
+  <p class="lede">Text that grows from 16px at 400px wide to 24px at 1200px wide is clamp(1rem, 0.75rem + 1vw, 1.5rem).</p>
+  <div class="boundary">
+    <strong>Boundary: arithmetic only</strong>
+    Clamp Math works out CSS fluid text sizes from the numbers you type. It has not seen your page, your fonts or your visitors' settings. It does not know how browser zoom, a visitor's own text size or your other CSS will change what they see, or whether the text is easy to read, and it gives no verdict that a size is right. Every number is your own entry.
+  </div>
+  <p class="lede" style="font-size:1rem">Starting examples: 16px to 24px between 400px and 1200px wide, the size at 800px wide, and the width where the text reaches 20px.</p>
+  <section>
+    <h2>The formula truth</h2>
+    <p>clamp(1rem, 0.75rem + 1vw, 1.5rem) takes the text from 16px at 400px wide to 24px at 1200px wide, counting 1rem as 16px. The numbers are rounded to 4 places, so the ends can be off by a tiny fraction of a pixel.</p>
+  </section>
+  <section>
+    <h2>The size truth</h2>
+    <p>At 800px wide the text is 20px, between 16px and 24px.</p>
+  </section>
+  <section>
+    <h2>The reach truth</h2>
+    <p>The text is 20px at 800px wide.</p>
+  </section>
+  <a class="btn" href="app.html">Work out your clamp</a>
+  <footer>Clamp Math is exact arithmetic over the numbers you enter, nothing more.</footer>
+</main>
+</body>
+</html>
